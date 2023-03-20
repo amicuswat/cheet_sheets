@@ -86,3 +86,6 @@ def count_squares(cuts):
     return 1 if cuts == 0 else (cuts+1)*(cuts+1)*(cuts+1) - (cuts-1)*(cuts-1)*(cuts-1)
 ```
 По сути тоже самое что предыдущая, только учитывае ситуацию с 0 разрезов
+
+
+
