@@ -110,3 +110,35 @@ def valid_parentheses(s:str):
 В данном случае кажду итерацию сначала lvl должен получить какое-то количество
 положительных балов, т.к. True эквивалент 1. Если идет не правильная скобка
 lvl уходит в минус и проверка прекращается и передается False.
+
+## Divide and Conquer
+
+### Instruction
+Given a mixed array of number and string representations of integers, add up the non-string integers and subtract the total of the string integers.
+
+Return as a number.
+### Test
+```python
+def basic_test_cases():
+    test.assert_equals(div_con([9, 3, '7', '3']), 2)
+    test.assert_equals(div_con(['5', '0', 9, 3, 2, 1, '9', 6, 7]), 14)
+    test.assert_equals(div_con(['3', 6, 6, 0, '5', 8, 5, '6', 2,'0']), 13) 
+    test.assert_equals(div_con(['1', '5', '8', 8, 9, 9, 2, '3']), 11)
+    test.assert_equals(div_con([8, 0, 0, 8, 5, 7, 2, 3, 7, 8, 6, 7]), 61)
+```
+
+### My variant
+```python
+def div_con(x):
+    num = 0
+    for i in x:
+        num = num + i if isinstance(i, int) else num - int(i)
+    return num
+```
+
+### Other variants
+```python
+def div_con(lst):
+    return sum(n if isinstance(n, int) else -int(n) for n in lst)
+```
+Автор делает список положительных и отрицателных значений потом их суммирует
