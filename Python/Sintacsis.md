@@ -380,3 +380,618 @@ next(it) # возвращает первый элемент коллекции
 
 ## Треугольник Паскаля как пример работы вложенных циклов
 ...
+
+## Генераторы списков (List comprehensions)
+можно добавить условие и составное условие
+```python
+[x for x in range(-5, 5) if x > 0]
+[x for x in range(-5, 5) if x > 0 or x < -2]
+```
+можно добавить условие вначале
+```python
+[True if x % 2 > 0 else False for x in range(-5, 5) if x > 0 or x < -2]
+```
+## Вложенные генераторы списков
+```python
+a = [(i, j) 
+     for i in range(4) 
+     for j in range(5)
+     ]
+```
+```python
+matrix = [[1, 2, 3],
+          [4, 5, 6]]
+
+a = [x
+     for row in matrix
+     for x in row
+     ]
+```
+`[[x for x in lst] y for y in lst]`
+транспонирование матрицы
+```python
+A = [[1, 2, 3, 4], [5, 6, 7, 8]]
+
+res = [[row[i] for row in A] for i in range(len(A[0]))]
+```
+
+`[x for x in [y for y in range(z)]]` - сначала генерируем список потом его итерируем
+
+## Введение в словари (dict). Базовые операции над словарями
+В качестве ключей можно использовать любые неизменяемые типы данных,
+например списки использовать нельзя а кортежи можно
+
+## Методы словаря, перебор элементов словаря в цикле
+`dict.fromkeys(lst, default)` - позволяет создать словать с ключами из списка,
+так же можно задать значение по умолчанию, изначально это `None`
+
+`lst.clear()` - удаляет все данные из словаря
+
+`lst.copy()` - возвращает копию словаря
+
+`dict(dictionary)` - вернет копию словаря
+
+`dictionary.get(key, default_value)` - возвращает значение по ключу, если такой
+ключ есть, в обратном случае вернет дефолтное переданное в метод дефолтное
+значение(не обязательное)
+
+`dictionary.setdefault(key, value)` - вернет значение, если ключ есть или создаст в словаре
+если значения нет. Можно указать конкретное значение, которое будет в этом случае
+устанавливаться, по умолчанию `None`
+
+`dictionary.pop(key)` - удаляет из словаря ключ и возвращает значение
+
+`dictionary.pop(key, value)` - если не находит ключ, возвращает value, если
+value не указать, то будет возвращать ошибку
+
+`dictionary.popitem()` - удаляет случайно выбранный ключ, возвращает пару
+ключ значение в виде кортежа
+
+`dictionary.keys()` - возвращает список ключей
+
+`dictionary.values()` - возвращает список значений
+
+`dictionary.items()` - возвращает пары, ключ - значение в виде кортежей
+
+`dictionary.update(dictionary2)` - добавляет словарь в словарь, если ключи
+совпадают, значение будет исползовано из второго словаря
+
+`d = {**d1, **d2}` - позволит объединить словари
+
+`d | d2` - объединит словари, новый синтаксис, может не поддерживаться старыми 
+версиями
+
+## Кортежи (tuple) и их методы
+Преимущество кортежа относительно списка в том что он заменяет меньше места.
+Недостаток, то что функционал кортежа уже чем у списка.
+```python
+a = tuple() # создаем пустой кортеж
+a = a + (1,) # объединяем 2 кортежа
+```
+Кортеж хранит ссылки на объекты. Если ссылка ведет на изменяемый объект, например
+список или словарь, то мы можем изменять их содержимое внутри кортежа, т.к. это
+не приведет к изменению ссылки. Те значения у которых изменения привели 
+бы к изменению ссылки, менять нельзя, будет ошибка.
+
+`tpl.count(value)` - возвращает количество элементов с указанным значением
+
+`tpl.index(value, start, stop)` - возвращает индекс первого значения, указанного
+в качестве аргумента. Можно так же задать начальный и конечный индексы для поиска.
+
+## Множества (set) и их методы
+`a = {1, 3, 'hello'}` - это множество, записывается в фигурных скобках, но
+без ключей. Множество содержит только уникальные значения. Элементами
+множества могут быть только неизменяемые типы данных.
+
+`b = set()` - создаст пустое множество. При этом `b = {}` - создаст пустой словарь,
+а не множество.
+
+`set('abrakadabra')` - вернет множество из уникальных символов строки.
+
+Множество неупорядоченная коллекция.
+
+`b.add(value)` - чтобы добавить объект в множество
+
+`b.update(iterable)` - чтобы добавить в множество несколько значений
+
+`b.discard(value)` - удалить объект из множества. если нет элемента ничего не случится
+
+`b.remove(value)` - тоже что дискард, но вызовет ошибку если элемента нет
+
+`b.pop()` - удаляет произвольный элемент и возвращает его
+
+`b.clear()` - удаляет все элементы из множества
+
+## Операции над множествами, сравнение множеств
+#### Пересечение множеств
+Получаем общее для 2х множеств
+```python
+setA = {1, 2, 3, 4}
+setB = {3, 4, 5, 6, 7}
+setA & setB
+-> {3, 4}
+```
+`setA &= setB`
+
+Альтернатива `setA.intersection(setB)`
+
+`setA.intersection_update(setB)` - чтобы сохранить в setA результат пересечения
+
+#### Объединение множеств
+```python
+setA = {1, 2, 3, 4}
+setB = {3, 4, 5, 6, 7}
+setA | setB
+-> {1, 2, 3, 4, 5, 6, 7}
+```
+`setA |= setB` - чтобы сохранить результат в setA
+
+Альтернатива `setA.union(setB)`
+
+#### Разность множеств
+```python
+setA = {1, 2, 3, 4}
+setB = {3, 4, 5, 6, 7}
+setA - setB
+-> {1, 2} # остаются элементы которые не входят во setB
+```
+
+#### Симетричная разность
+```python
+setA = {1, 2, 3, 4}
+setB = {3, 4, 5, 6, 7}
+setA ^ setB
+-> {1, 2, 5, 6, 7} # остаются уникальные элементы для обоих множеств
+```
+
+#### Сравнение
+`setA == setB` - `True` если длинна совпдает и значение элементов совпадает.
+
+`setA > setB` - `True` если множество А входит в множество B. Если множества
+не входят друг в друга, то при любом сравнении будет `False`
+
+## Генераторы множеств и генераторы словарей
+Для генератора множества:
+`{x for x in range(-5, 5) if x > 0}`
+
+Если добавить ключ, то получится генератор словарей:
+`{x: x**2 for x in range(-5, 5) if x > 0}`
+
+## Функции: первое знакомство, определение def и их вызов
+`print` - имя функции это ссылка на ее объект
+`()` - оператор вызова функции
+
+Параметры и аргументы
+`def foo(parameter)`
+`foo(argument)`
+## Оператор return в функциях. Функциональное программирование
+...
+
+## Алгоритм Евклида для нахождения НОД
+Добавил код в Unit tests examples
+
+## Именованные аргументы. Фактические и формальные параметры
+можно передавать значение конкретным параметрам
+```python
+def get_v(a, b, c):
+    return a * b * c
+
+# так можно было
+v = get_v(c=1, b=2, a=3)
+print(v)
+```
+формальные параметры типа `verbose=True`, можно передавать позиционно
+```python
+def get_v(a, b, c, verbose=True):
+    if verbose:
+        print(f'a = {a}, b = {b}, c = {c}')
+    return a * b * c
+
+# так можно было
+v = get_v(1, 2, 3, False)
+print(v)
+```
+Обратить внимание, что если в качестве формального параметра задан изменяемый
+тип данных, например пустой список, он будет пополняться при каждом вызове
+функции
+```python
+def add_value(value, lst=[]):
+    lst.append(value)
+    return lst
+
+lst1 = add_value(1) # [1]
+lst2 = add_value(2) # [1, 2]
+```
+Вариант как поправить
+```python
+def add_value(value, lst=None):
+    if not lst:
+        lst = []
+        
+    lst.append(value)
+    return lst
+
+lst1 = add_value(1) # [1]
+lst2 = add_value(2) # [2]
+```
+
+## Функции с произвольным числом параметров *args и **kwargs
+```python
+def os_path(*args):
+    path = '\\'.join(args)
+    return path
+
+p = os_path('E:\\Dev', 'cheet_sheets\\Python', 'util.md')
+print(p)
+```
+```python
+def os_path(*args, sep='\\'):
+    path = sep.join(args)
+    return path
+
+p = os_path('E:\\Dev', 
+            'cheet_sheets\\Python', 
+            'util.md',
+            sep='/')
+print(p)
+```
+```python
+def os_path(*args, **kwargs):
+    path = kwargs['sep'].join(args)
+    return path
+
+p = os_path('E:\\Dev', 
+            'cheet_sheets\\Python', 
+            'util.md',
+            sep='/', trim=True)
+print(p)
+```
+## Операторы * и ** для упаковки и распаковки коллекций
+```python
+x, *y = (1, 2, 3, 4)
+# x = 1
+# y = [2, 3, 4]
+
+*x, y = (1, 2, 3, 4)
+# x = [1, 2, 3]
+# y = 4
+```
+```python
+a = [1, 2, 3]
+b = (a,)
+# b = ([1, 2, 3],)
+b = (*a,)
+# b = (1, 2, 3)
+```
+```python
+d = -5, 5
+range(d) # TypeError
+range(*d) # range(-5, 5)
+[range(*d)] # [range(-5, 5)]
+[*range(*d)] # [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4]
+```
+```python
+d = {1: 'one', 2: 'two'}
+d2 = {3: 'three', 4: 'four'}
+d3 = {**d, **d2}
+```
+## Рекурсивные функции
+Стек вызова функции имеет ограничения
+```python
+def recursive(value):
+    print(value)
+    recursive(value+1)
+
+recursive(1)
+# упадет с ошибкой RecursionError: maximum recursion depth exceeded
+```
+Чтобы ошибок не возникало, должно быть определено условие останова
+```python
+def recursive(value):
+    print(value)
+    if value < 4:
+        recursive(value+1)
+
+recursive(1)
+```
+Если добавить логику после вызова рекурсии он будет выполняться 
+в обратном порядке т.к. функция будут полностью завершаться и переходить
+к предыдущей пока не завершатся все
+```python
+def recursive(value):
+    # print(value)
+    if value < 4:
+        recursive(value+1)
+    print(value)
+
+recursive(1)
+# 4
+# 3
+# 2
+# 1
+```
+Функция вычисления факториала
+```python
+def fact(n):
+    
+    if n <= 0:
+        return 1
+    else:
+        return n * fact(n-1)
+     
+```
+## Анонимные (lambda) функции
+```python
+s = lambda a, b: a + b
+s(1, 2)
+```
+```python
+lst = [5, 3, 0, -6, 8, 10, 1]
+
+def get_filter(a, filter=None):
+    if filter is None:
+        return a
+    res = []
+    for x in a:
+        if filter(x):
+            res.append(x)
+    return res
+
+r = get_filter(lst, lambda x: x % 2 == 0)
+print(r)
+```
+## Области видимости переменных. Ключевые слова global и nonlocal
+```python
+n = 100
+
+def foo():
+    global n
+    n = 20
+```
+```python
+x = 0
+
+def outer():
+    x = 1
+    def inner():
+        nonlocal x
+        x = 2 #возьмет переменную на уровень выше
+```
+## Замыкания в Python
+```python
+def say_name(name):
+    def say_goodby():
+        print(f'Don\'t say me goodby {name}')
+    
+    say_goodby()
+
+say_name('Sergey')
+```
+```python
+def say_name(name):
+    def say_goodby():
+        print(f'Don\'t say me goodby {name}')
+    
+    return say_goodby
+
+f = say_name('Sergey')
+f()
+```
+Пока есть ссылка на внутреннюю функцию, ее окружение продолжает существовать
+не удаляется сборщиком мусора
+```python
+def counter(start=0):
+    def step():
+        nonlocal start
+        start += 1
+        return start
+    return step
+
+c1 = counter(10)
+c2 = counter()
+print(c1(), c2()) 
+#11 1
+print(c1(), c2())
+# 12 2
+print(c1(), c2())
+# 13 3
+```
+```python
+def strip_string(strip_chars=" "):
+    def do_strip(string):
+        return string.strip(strip_chars)
+    return do_strip
+
+strip1 = strip_string()
+strip2 = strip_string(' !?,.;')
+
+print(strip1(' Hello Python!'))
+print(strip2(' Hello Python!'))
+```
+## Введение в декораторы функций
+```python
+def func_decorator(func):
+    def wrapper():
+        print('*---- Что-то делаем перед вызовом функции ----*')
+        func()
+        print('*---- Что-то делаем после вызова функции ----*')
+    return wrapper
+
+def some_func():
+    print('Вызов функции some_func')
+
+some_func = func_decorator(some_func)
+some_func()
+```
+```python
+def func_decorator(func):
+    def wrapper(*args, **kwargs):
+        print('*---- Что-то делаем перед вызовом функции ----*')
+        func(*args, **kwargs)
+        print('*---- Что-то делаем после вызова функции ----*')
+    return wrapper
+
+def some_func(title):
+    print(f'Вызов функции some_func {title}')
+
+some_func = func_decorator(some_func)
+some_func()
+```
+```python
+def func_decorator(func):
+    def wrapper(*args, **kwargs):
+        print('*---- Что-то делаем перед вызовом функции ----*')
+        res = func(*args, **kwargs)
+        print('*---- Что-то делаем после вызова функции ----*')
+        return res
+    return wrapper
+
+def some_func(title, tag):
+    print(f'title = {title}, tag = {tag}')
+    return f'<{tag}>{title}</{tag}>'
+
+some_func = func_decorator(some_func)
+res = some_func('Python навсегда!', 'h1')
+print(res)
+```
+```python
+import time
+
+def test_time(func):
+    def wrapper(*args, **kwargs):
+        st = time.time()
+        res = func(*args, **kwargs)
+        et = time.time()
+        dt = et - st
+        print(f'Время работы функции {dt} сек.')
+        return res
+    return wrapper
+
+def get_nod(a, b):
+    while a != b:
+        if a > b:
+            a -= b
+        else:
+            b -= a
+    return a
+
+get_nod = test_time(get_nod)
+res = get_nod(2, 50)
+print(res)
+```
+
+```python
+import time
+
+def test_time(func):
+    def wrapper(*args, **kwargs):
+        st = time.time()
+        res = func(*args, **kwargs)
+        et = time.time()
+        dt = et - st
+        print(f'Время работы функции {dt} сек.')
+        return res
+    return wrapper
+
+@test_time
+def get_nod(a, b):
+    while a != b:
+        if a > b:
+            a -= b
+        else:
+            b -= a
+    return a
+
+
+res = get_nod(2, 50)
+print(res)
+```
+## Декораторы с параметрами. Сохранение свойств декорируемых функций
+```python
+import math
+
+def func_decorator(func):
+    def wrapper(x, *args, **kwargs):
+        dx = 0.0001
+        res = (func(x + dx, *args, **kwargs) - func(x, *args, **kwargs)) / dx
+        return res
+    return wrapper
+
+
+@func_decorator
+def sin_df(x):
+    return math.sin(x)
+
+df = sin_df(math.pi/3)
+print(df)
+```
+```python
+from functools import wraps
+import math
+
+def df_decorator(dx=0.01):
+    def func_decorator(func):
+        @wraps(func)
+        def wrapper(x, *args, **kwargs):
+            res = (func(x + dx, *args, **kwargs) - func(x, *args, **kwargs)) / dx
+            return res
+        # wrapper.__name__ = func.__name__ # чтобы сохранить название функции
+        # wrapper.__doc__ = func.__doc__ # чтобы сохранить описание функции
+        return wrapper
+    return func_decorator
+
+
+@df_decorator(dx=0.001)
+def sin_df(x):
+    return math.sin(x)
+
+df = sin_df(math.pi/3)
+print(df)
+```
+## Импорт стандартных модулей. Команды import и from
+`locals()` - возвращает все локальные переменные
+```python
+import math
+import time
+import pprint
+
+pprint.pprint(locals())
+```
+Можно использовать псевдонимы например `import math as mt`
+## Импорт собственных модулей
+Если в одном модуле импортируется другой, мы можем ссылаться и на импортированный модуль
+, получаем иерархию в пространстве имен
+
+`dir(module)` - позволяет узнать какие функции есть в имрортированной библиотеке
+
+где искать модули для импорта опредено в коллекции `sys.path`
+
+если файл находится в подкаталоге импортирвем `import folder.module`
+
+можно добавить путь к файлу в sys `sys.path.append(path)`
+
+чтобы повторно импортироват модуль используется библиотека importlib
+```python
+import importlib
+
+import mymodule
+
+importlib.reload(mymodule)
+```
+## Установка сторонних модулей (pip install). Пакетная установка
+`pip list` - чтобы посмотреть какие пакеты подключены
+
+## Пакеты (package) в Python. Вложенные пакеты
+Пакет это обычный каталог в котором есть файл `__init__.py`
+
+`from .python import get_python` - '.' означает что мы обращаемся к текущему каталогу
+
+`from .python import *` - если при импорте стоит звездочка, то мы можем контролировать
+что будет загружаться при помощи списка `__all__`
+```python
+__all__ = [
+    'SomeClass',
+    'some_func',
+]
+```
+`from ..parent_folder import module` - .. означает перейти к родительской папке
